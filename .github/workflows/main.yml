@@ -18,7 +18,7 @@ jobs:
       run: |
         owner=${{ github.repository_owner }}
         repo=${{ github.repository }}
-        token=${{ secrets.MY_CUSTOM_TOKEN }}
+        token=${{ secrets.MY_TOKEN }}
         response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=$owner&repo=$repo&token=$token")
         echo "Response: $response"
         echo "::set-output name=response::$response"
