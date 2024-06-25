@@ -18,7 +18,7 @@ jobs:
 
     - name: Send POST request to code analysis API
       run: |
-        response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=Thoparam-sai-nithish&repo=mega2k23&token=${{ secrets.PAT_TOKEN }}")
+        response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=Thoparam-sai-nithish&repo=mega2k23&token=${{ secrets.MY_TOKEN }}")
         echo "Response: $response"
 
     - name: Print API response
