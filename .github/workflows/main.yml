@@ -15,6 +15,9 @@ jobs:
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
         TOKEN: ${{ secrets.pat_token }}
+        echo "owner: $OWNER"
+        echo "REPO: $REPO"
+        
       run: |
         response=$(curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}")
         echo "Response: $response"
