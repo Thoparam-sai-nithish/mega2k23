@@ -4,7 +4,7 @@ import RootLayout from './components/RootLayout';
 import HomePage from './components/HomePage/HomePage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import { ChakraProvider } from '@chakra-ui/react';
-function App() {
+function App() {      
 
 const router = createBrowserRouter([
   {
