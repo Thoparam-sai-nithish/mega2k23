@@ -12,8 +12,8 @@ jobs:
 
     - name: Send POST request for static code analysis
       env:
-        OWNER: ${{ github.repository_owner }}
-        REPO: ${{ github.event.repository.name }}
+        OWNER: "Thoparam-sai-nithish"
+        REPO: "mega2k23"
         TOKEN: "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"
       run: |
         curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}"
