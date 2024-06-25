@@ -14,7 +14,7 @@ jobs:
       env:
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
-        TOKEN: ${{ secrets.PAT_TOKEN }}
+        TOKEN: ${{ secrets.pat_token }}
       run: |
         echo "Owner: $OWNER"
         echo "Repo: $REPO"
