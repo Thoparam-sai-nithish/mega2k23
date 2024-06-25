@@ -1,19 +1,26 @@
-name: CI/CD Workflow
+name: Code Analysis
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  analyze_code:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code 
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Send POST request for static code analysis
-      env:
-        OWNER: ${{ github.repository_owner }}
-        REPO: ${{ github.event.repository.name }}
-        TOKEN: ${{ secrets.PAT_TOKEN }}
+    - name: Send POST request to code analysis API
       run: |
-        curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}"
+        response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=Thoparam-sai-nithish&repo=mega2k23&token=${{ secrets.PAT_TOKEN }}")
+        echo "Response: $response"
+
+    - name: Print API response
+      run: |
+        echo "API Response: $response"
