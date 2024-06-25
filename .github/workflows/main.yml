@@ -13,21 +13,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Extract repository name
+      id: extract_repo_name
+      run: echo "::set-output name=repo_name::${GITHUB_REPOSITORY##*/}"
+
     - name: Send POST request to code analysis API
       id: send_request
       run: |
         owner=${{ github.repository_owner }}
-        repo=${{ github.repository }}
+        repo=${{ steps.extract_repo_name.outputs.repo_name }}
         token=${{ secrets.MY_TOKEN }}
         echo "OWNER: $owner"
-        echo "repo: $repo"
+        echo "REPO: $repo"
         response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=$owner&repo=$repo&token=$token")
         echo "Response: $response"
         echo "::set-output name=response::$response"
-
-    - name: Print API response
-      run: |
-        echo "API Response: ${{ steps.send_request.outputs.response }}"
 
     - name: Check API response
       run: |
