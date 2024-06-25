@@ -1,0 +1,19 @@
+name: CI/CD Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Send POST request for static code analysis
+      env:
+        OWNER: ${{ github.repository_owner }}
+        REPO: ${{ github.event.repository.name }}
+        TOKEN: "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"
+      run: |
+        curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}"
