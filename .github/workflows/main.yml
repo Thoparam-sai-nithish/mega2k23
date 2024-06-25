@@ -14,10 +14,24 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Send POST request to code analysis API
+      id: send_request
       run: |
-        response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=Thoparam-sai-nithish&repo=mega2k23&token=${{ secrets.MY_TOKEN }}")
+        owner=${{ github.repository_owner }}
+        repo=${{ github.repository }}
+        token=${{ secrets.MY_CUSTOM_TOKEN }}
+        response=$(curl -s -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=$owner&repo=$repo&token=$token")
         echo "Response: $response"
+        echo "::set-output name=response::$response"
 
     - name: Print API response
       run: |
-        echo "API Response: $response"
+        echo "API Response: ${{ steps.send_request.outputs.response }}"
+
+    - name: Check API response
+      run: |
+        if [ "${{ steps.send_request.outputs.response }}" != "true" ]; then
+          echo "API Response is false. Failing the job."
+          exit 1
+        else
+          echo "API Response is true. Job succeeded."
+        fi
