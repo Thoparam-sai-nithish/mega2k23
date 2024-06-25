@@ -12,8 +12,16 @@ jobs:
 
     - name: Send POST request for static code analysis
       env:
-        OWNER: "Thoparam-sai-nithish"
-        REPO: "mega2k23"
-        TOKEN: ${{secrets.pat_token}}
+        OWNER: ${{ github.repository_owner }}
+        REPO: ${{ github.event.repository.name }}
+        TOKEN: ${{ secrets.pat_token }}
       run: |
-        curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}"
+        response=$(curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}")
+        echo "Response: $response"
+        result=$(echo $response | jq '.result')
+        if [ "$result" != "true" ]; then
+          echo "Static code analysis failed."
+          exit 1
+        fi
+        echo "Static code analysis passed."
+      shell: bash
