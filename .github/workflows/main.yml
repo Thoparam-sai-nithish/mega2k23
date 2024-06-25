@@ -14,6 +14,6 @@ jobs:
       env:
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
-        TOKEN: ${{ secrets.pat_token }}
+        TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}"
