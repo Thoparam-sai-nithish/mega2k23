@@ -10,27 +10,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Verify environment variables
-      env:
-        OWNER: ${{ github.repository_owner }}
-        REPO: ${{ github.event.repository.name }}
-        TOKEN: ${{ secrets.pat_token }}
-      run: |
-        echo "Owner: $OWNER"
-        echo "Repo: $REPO"
-        if [ -z "$TOKEN" ]; then
-          echo "TOKEN is not set"
-          exit 1
-        else
-          echo "TOKEN is set"
-        fi
-      shell: bash
-
     - name: Send POST request for static code analysis
       env:
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
-        TOKEN: ${{ secrets.pat_token }}
+        TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         response=$(curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}")
         echo "Response: $response"
@@ -41,3 +25,9 @@ jobs:
         fi
         echo "Static code analysis passed."
       shell: bash
+
+    - name: Further build steps
+      if: success()
+      run: |
+        echo "Performing further build steps..."
+        # Add your build commands here
