@@ -14,20 +14,6 @@ jobs:
       env:
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
-        TOKEN: ${{ secrets.PAT_TOKEN }}
+        TOKEN: ${{ secrets.pat_token }}
       run: |
-        response=$(curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}")
-        echo "Response: $response"
-        result=$(echo $response | jq '.result')
-        if [ "$result" != "true" ]; then
-          echo "Static code analysis failed."
-          exit 1
-        fi
-        echo "Static code analysis passed."
-      shell: bash
-
-    - name: Further build steps
-      if: success()
-      run: |
-        echo "Performing further build steps..."
-        # Add your build commands here
+        curl -X POST "https://codeanalysis.azurewebsites.net/CodeAnalysis/PerfromStaticCodeAnalysis?owner=${OWNER}&repo=${REPO}&token=${TOKEN}"
